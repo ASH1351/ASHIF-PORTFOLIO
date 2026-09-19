@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASHIF // Cinematic Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body class="bg-black text-white selection:bg-red-600 selection:text-white overflow-x-hidden">
+
+  <!-- ================= PRELOADER ================= -->
+  <div id="preloader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-opacity duration-700">
+    <div class="relative flex flex-col items-center max-w-xs w-full px-6 text-center">
+      <div class="absolute w-40 h-40 bg-red-600/20 rounded-full blur-3xl -z-10 animate-pulse"></div>
+
+      <!-- Cyber Ring Spinner -->
+      <div class="relative w-16 h-16 mb-4">
+        <div class="absolute inset-0 rounded-full border-2 border-red-950 border-t-red-500 animate-spin"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <span id="loader-percent" class="font-mono text-sm font-bold tracking-wider text-red-500">0%</span>
+        </div>
+      </div>
+
+      <!-- Progress Bar Track -->
+      <div class="w-full h-1 bg-zinc-900 rounded-full overflow-hidden border border-zinc-800">
+        <div id="loader-bar" class="h-full bg-gradient-to-r from-red-700 via-red-500 to-red-400 w-0 transition-all duration-150 shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= LOGO (TOP LEFT) ================= -->
+  <div class="fixed top-4 left-4 sm:top-6 sm:left-6 z-40 flex items-center gap-2.5 sm:gap-3 pointer-events-none">
+    <span class="w-8 h-8 sm:w-9 sm:h-9 rounded bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center font-black text-sm sm:text-base tracking-tighter text-white shadow-lg shadow-red-600/30">
+      A
+    </span>
+    <div class="flex items-center">
+      <span class="font-extrabold text-sm sm:text-base tracking-wider uppercase text-white drop-shadow">ASHIF</span>
+      <span class="hidden sm:inline-block text-[10px] font-mono text-zinc-400 tracking-widest uppercase ml-2 border-l border-zinc-800 pl-2.5">Design Studio</span>
+    </div>
+  </div>
+
+  <!-- ================= HERO SCROLL TRACK (600vh) ================= -->
+  <section id="hero-track" class="relative w-full h-[600vh] bg-black">
+    <!-- STICKY VIEWPORT CONTAINER -->
+    <div class="sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center justify-center bg-black">
+      <!-- Canvas for frame sequence -->
+      <canvas id="hero-canvas" class="w-full h-full block object-cover z-0"></canvas>
+
+      <!-- Opening Hero Title & Scroll Hint -->
+      <div id="hero-opening-title" class="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 pointer-events-none transition-transform duration-100 will-change-[opacity,transform]">
+        <div class="flex flex-col items-center max-w-4xl w-full mx-auto px-2">
+          <!-- Welcome Eyebrow -->
+          <div class="flex items-center justify-center gap-2 sm:gap-3.5 md:gap-4 mb-2 sm:mb-3.5 select-none max-w-full">
+            <span class="w-5 sm:w-10 md:w-16 h-px bg-gradient-to-r from-transparent to-red-500/80 shrink-0"></span>
+            <span class="font-mono text-sm sm:text-lg md:text-xl lg:text-2xl tracking-[0.2em] sm:tracking-[0.28em] md:tracking-[0.32em] text-red-500 uppercase font-bold drop-shadow-[0_0_18px_rgba(255,42,59,0.7)] whitespace-nowrap">
+              WELCOME TO
+            </span>
+            <span class="w-5 sm:w-10 md:w-16 h-px bg-gradient-to-l from-transparent to-red-500/80 shrink-0"></span>
+          </div>
+
+          <!-- Main Title -->
+          <h1 class="font-bebas text-4xl sm:text-7xl md:text-8xl lg:text-9xl tracking-wide uppercase text-white drop-shadow-[0_8px_32px_rgba(0,0,0,0.95)] leading-none select-none whitespace-nowrap">
+            MY <span class="text-red-500 text-glow">PORTFOLIO</span>
+          </h1>
+
+          <!-- Subtitle / Role -->
+          <p class="font-mono text-[11px] sm:text-sm md:text-base tracking-[0.12em] sm:tracking-[0.22em] md:tracking-[0.28em] text-zinc-300 uppercase mt-2.5 sm:mt-4 md:mt-5 font-medium drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] max-w-2xl px-2">
+            <span class="inline-block whitespace-nowrap">ASHIF RAJA</span>
+            <span class="text-red-500 font-bold mx-1 sm:mx-2">·</span>
+            <span class="inline-block whitespace-nowrap">GRAPHIC &amp; UI/UX DESIGNER</span>
+          </p>
+        </div>
+
+        <!-- Scroll Hint with subtle downward arrow -->
+        <div class="absolute bottom-6 sm:bottom-10 md:bottom-12 left-0 right-0 flex flex-col items-center gap-2 pointer-events-none select-none">
+          <span class="font-mono text-[10px] sm:text-xs tracking-[0.2em] sm:tracking-[0.25em] text-zinc-300 uppercase opacity-90">
+            Scroll to explore archive
+          </span>
+          <svg class="w-4 h-4 text-red-500 animate-bounce opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SCENE 02: MY CREATIVE UNIVERSE ================= -->
+  <section id="universe-section" class="relative w-full h-[350vh] bg-black">
+    <div id="universe-sticky" class="sticky top-0 left-0 w-full h-screen overflow-hidden flex flex-col items-center justify-center bg-[#030304] select-none">
+
+      <!-- Ambient Crimson Haze Background -->
+      <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_52%,_rgba(220,20,40,0.14)_0%,_rgba(0,0,0,0.92)_72%)] z-0"></div>
+
+      <!-- Restrained Embers / Particles Canvas -->
+      <canvas id="universe-particles" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
+
+      <!-- Thin Red Light Trail (Behind Character) -->
+      <svg id="universe-light-trail" class="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-visible" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="trail-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="6" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <linearGradient id="trail-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ff2a3b" stop-opacity="0"/>
+            <stop offset="40%" stop-color="#ff2a3b" stop-opacity="0.8"/>
+            <stop offset="85%" stop-color="#ff6b78" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="1"/>
+          </linearGradient>
+        </defs>
+        <path id="trail-path" d="" fill="none" stroke="url(#trail-grad)" stroke-width="2.5" stroke-linecap="round" filter="url(#trail-glow)"/>
+        <circle id="trail-head" cx="-100" cy="-100" r="3.5" fill="#ffffff" filter="url(#trail-glow)"/>
+      </svg>
+
+      <!-- Section Text Header (Top Center) -->
+      <header id="universe-header" class="absolute top-6 sm:top-8 z-30 flex flex-col items-center text-center px-4 transition-all duration-700 pointer-events-none">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-600/10 border border-red-500/30 text-red-500 font-mono text-[11px] sm:text-xs tracking-widest uppercase mb-2 shadow-[0_0_15px_rgba(255,42,59,0.2)]">
+          <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+          <span>DESIGN ARSENAL &amp; WORKFLOW</span>
+        </div>
+        <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight font-bebas text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+          MY CREATIVE <span class="text-red-500 text-glow">UNIVERSE</span>
+        </h2>
+        <p class="text-xs sm:text-sm text-zinc-300 font-light tracking-wide max-w-lg mt-1 leading-relaxed">
+          Synthesizing classical visual design principles with cutting-edge generative workflows.
+        </p>
+      </header>
+
+      <!-- 3D Cinematic Room Stage -->
+      <div id="universe-stage" class="relative w-full h-full flex items-center justify-center perspective-[1200px] overflow-hidden">
+
+        <!-- Circular Floor Ring with Red Illumination & Contact Shadow -->
+        <div id="universe-floor" class="absolute bottom-[6%] sm:bottom-[7%] w-[380px] sm:w-[580px] lg:w-[720px] h-[130px] sm:h-[190px] lg:h-[220px] pointer-events-none z-10 transition-transform duration-700">
+          <!-- Outer glowing neon ring -->
+          <div class="absolute inset-0 rounded-full border border-red-600/70 shadow-[0_0_50px_rgba(255,42,59,0.5),inset_0_0_40px_rgba(255,42,59,0.25)] transform rotate-x-[76deg]"></div>
+          <!-- Inner concentric ring -->
+          <div class="absolute inset-[15%] rounded-full border border-red-500/40 shadow-[0_0_25px_rgba(255,42,59,0.3)] transform rotate-x-[76deg]"></div>
+          <!-- Center floor radial glow -->
+          <div class="absolute inset-[5%] rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(255,42,59,0.28)_0%,_rgba(255,42,59,0.06)_55%,_transparent_75%)] transform rotate-x-[76deg]"></div>
+        </div>
+
+        <!-- Center Character Cutout -->
+        <div id="universe-character-wrap" class="absolute bottom-[6%] sm:bottom-[7%] z-20 flex flex-col items-center pointer-events-none transition-transform duration-500">
+          <!-- Subtle contact shadow under boots -->
+          <div class="w-48 sm:w-64 h-7 bg-black/90 rounded-full blur-md -mb-3.5 transform scale-y-50"></div>
+          <!-- Transparent Cutout Image -->
+          <img 
+            id="universe-character"
+            src="./character-cutout.png" 
+            alt="Ashif Creative Universe" 
+            class="h-[52vh] sm:h-[62vh] lg:h-[70vh] w-auto max-w-none object-contain drop-shadow-[0_10px_35px_rgba(0,0,0,0.8)] filter drop-shadow(0_0_25px_rgba(255,42,59,0.22))"
+          >
+          <!-- Subtle floor reflection -->
+          <div class="w-full h-16 overflow-hidden opacity-30 transform scale-y-[-0.35] blur-[2px] pointer-events-none -mt-4 mask-fade">
+            <img src="./character-cutout.png" alt="" class="w-full h-auto object-contain">
+          </div>
+        </div>
+
+        <!-- Desktop Floating Tool Cards Container (10 Cards) -->
+        <div id="universe-cards-layer" class="absolute inset-0 z-25 pointer-events-none hidden lg:block">
+
+          <!-- LEFT WING CARDS (5 Cards) -->
+
+          <!-- 01: Adobe Photoshop (Top Left Foreground) -->
+          <div class="universe-card pointer-events-auto" data-card="0" data-wing="left" tabindex="0"
+               style="left: 6%; top: 20%; transform: translate3d(0, 0, 40px) rotateY(12deg) rotateX(4deg);">
+            <div class="card-inner">
+              <div class="card-icon-box">
+                <img src="./icons/photoshop.png" alt="Adobe Photoshop" class="w-10 h-10 object-contain select-none pointer-events-none drop-shadow-md" loading="lazy" />
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">Adobe Photoshop</h3>
+                <p class="card-desc">Advanced Compositing &amp; Retouching</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 02: Adobe Illustrator (Far Left Midground) -->
+          <div class="universe-card pointer-events-auto" data-card="1" data-wing="left" tabindex="0"
+               style="left: 3%; top: 43%; transform: translate3d(0, 0, 10px) rotateY(16deg) rotateX(-2deg);">
+            <div class="card-inner">
+              <div class="card-icon-box">
+                <img src="./icons/illustrator.png" alt="Adobe Illustrator" class="w-10 h-10 object-contain select-none pointer-events-none drop-shadow-md" loading="lazy" />
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">Adobe Illustrator</h3>
+                <p class="card-desc">Brand Identity &amp; Vector Systems</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 03: Adobe InDesign (Lower Left Foreground) -->
+          <div class="universe-card pointer-events-auto" data-card="2" data-wing="left" tabindex="0"
+               style="left: 7%; top: 67%; transform: translate3d(0, 0, 30px) rotateY(10deg) rotateX(-6deg);">
+            <div class="card-inner">
+              <div class="card-icon-box">
+                <img src="./icons/indesign.png" alt="Adobe InDesign" class="w-10 h-10 object-contain select-none pointer-events-none drop-shadow-md" loading="lazy" />
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">Adobe InDesign</h3>
+                <p class="card-desc">Editorial Systems &amp; Layout</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 04: Midjourney (Inner Left Layer) -->
+          <div class="universe-card pointer-events-auto" data-card="3" data-wing="left" tabindex="0"
+               style="left: 19%; top: 31%; transform: translate3d(0, 0, -20px) rotateY(8deg);">
+            <div class="card-inner">
+              <div class="card-icon-box">
+                <img src="./icons/midjourney.png" alt="Midjourney" class="w-10 h-10 object-contain select-none pointer-events-none drop-shadow-md" loading="lazy" />
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">Midjourney</h3>
+                <p class="card-desc">Visual Exploration &amp; Prompt Craft</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 05: ChatGPT (Lower Mid Left) -->
+          <div class="universe-card pointer-events-auto" data-card="4" data-wing="left" tabindex="0"
+               style="left: 18%; top: 56%; transform: translate3d(0, 0, 5px) rotateY(7deg);">
+            <div class="card-inner">
+              <div class="card-icon-box">
+                <img src="./icons/chatgpt.png" alt="ChatGPT" class="w-10 h-10 object-contain select-none pointer-events-none drop-shadow-md" loading="lazy" />
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">ChatGPT</h3>
+                <p class="card-desc">Creative Direction &amp; Ideation</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT WING CARDS (5 Cards) -->
+
+          <!-- 06: Claude (Top Right Foreground) -->
+          <div class="universe-card pointer-events-auto" data-card="5" data-wing="right" tabindex="0"
+               style="right: 6%; top: 20%; transform: translate3d(0, 0, 40px) rotateY(-12deg) rotateX(4deg);">
+            <div class="card-inner">
+              <div class="card-icon-box">
+                <img src="./icons/claude.png" alt="Claude" class="w-10 h-10 object-contain select-none pointer-events-none drop-shadow-md" loading="lazy" />
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">Claude</h3>
+                <p class="card-desc">Narrative Framing &amp; Concept Synthesis</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 07: Gemini (Inner Right Layer) -->
+          <div class="universe-card pointer-events-auto" data-card="6" data-wing="right" tabindex="0"
+               style="right: 19%; top: 31%; transform: translate3d(0, 0, -20px) rotateY(-8deg);">
+            <div class="card-inner">
+              <div class="card-icon-box">
+                <img src="./icons/gemini.png" alt="Gemini" class="w-10 h-10 object-contain select-none pointer-events-none drop-shadow-md" loading="lazy" />
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">Gemini</h3>
+                <p class="card-desc">Multimodal Research &amp; Ideation</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 08: NotebookLM (Far Right Midground) -->
+          <div class="universe-card pointer-events-auto" data-card="7" data-wing="right" tabindex="0"
+               style="right: 3%; top: 43%; transform: translate3d(0, 0, 10px) rotateY(-16deg) rotateX(-2deg);">
+            <div class="card-inner">
+              <div class="card-icon-box">
+                <img src="./icons/notebooklm.png" alt="NotebookLM" class="w-10 h-10 object-contain select-none pointer-events-none drop-shadow-md" loading="lazy" />
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">NotebookLM</h3>
+                <p class="card-desc">Knowledge Synthesis &amp; Research</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 09: Leonardo AI (Lower Mid Right) -->
+          <div class="universe-card pointer-events-auto" data-card="8" data-wing="right" tabindex="0"
+               style="right: 18%; top: 56%; transform: translate3d(0, 0, 5px) rotateY(-7deg);">
+            <div class="card-inner">
+              <div class="card-icon-box">
+                <img src="./icons/leonardo.png" alt="Leonardo AI" class="w-10 h-10 object-contain select-none pointer-events-none drop-shadow-md" loading="lazy" />
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">Leonardo AI</h3>
+                <p class="card-desc">Generative Asset Prototyping</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 10: Google Flow (Lower Right Foreground) -->
+          <div class="universe-card pointer-events-auto" data-card="9" data-wing="right" tabindex="0"
+               style="right: 7%; top: 67%; transform: translate3d(0, 0, 30px) rotateY(-10deg) rotateX(-6deg);">
+            <div class="card-inner">
+              <div class="card-icon-box">
+                <img src="./icons/googleflow.png" alt="Google Flow" class="w-10 h-10 object-contain select-none pointer-events-none drop-shadow-md" loading="lazy" />
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">Google Flow</h3>
+                <p class="card-desc">Cinematic Motion &amp; Sequences</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Mobile / Tablet Responsive Layout (Character Above 2-Column Grid) -->
+        <div id="universe-mobile-grid" class="lg:hidden absolute inset-x-4 bottom-4 z-30 max-h-[46vh] overflow-y-auto px-1 py-2 pointer-events-auto">
+          <div class="grid grid-cols-2 gap-2 max-w-lg mx-auto">
+            
+            <div class="mobile-card flex flex-row items-center gap-2.5">
+              <img src="./icons/photoshop.png" alt="Adobe Photoshop" class="w-7 h-7 object-contain flex-shrink-0 select-none pointer-events-none" />
+              <div class="flex flex-col min-w-0">
+                <span class="text-xs font-bold text-white truncate">Adobe Photoshop</span>
+                <span class="text-[10px] text-zinc-400 truncate">Advanced Compositing</span>
+              </div>
+            </div>
+            
+            <div class="mobile-card flex flex-row items-center gap-2.5">
+              <img src="./icons/illustrator.png" alt="Adobe Illustrator" class="w-7 h-7 object-contain flex-shrink-0 select-none pointer-events-none" />
+              <div class="flex flex-col min-w-0">
+                <span class="text-xs font-bold text-white truncate">Adobe Illustrator</span>
+                <span class="text-[10px] text-zinc-400 truncate">Brand Identity &amp; Systems</span>
+              </div>
+            </div>
+
+            <div class="mobile-card flex flex-row items-center gap-2.5">
+              <img src="./icons/indesign.png" alt="Adobe InDesign" class="w-7 h-7 object-contain flex-shrink-0 select-none pointer-events-none" />
+              <div class="flex flex-col min-w-0">
+                <span class="text-xs font-bold text-white truncate">Adobe InDesign</span>
+                <span class="text-[10px] text-zinc-400 truncate">Editorial &amp; Layout</span>
+              </div>
+            </div>
+
+            <div class="mobile-card flex flex-row items-center gap-2.5">
+              <img src="./icons/midjourney.png" alt="Midjourney" class="w-7 h-7 object-contain flex-shrink-0 select-none pointer-events-none" />
+              <div class="flex flex-col min-w-0">
+                <span class="text-xs font-bold text-white truncate">Midjourney</span>
+                <span class="text-[10px] text-zinc-400 truncate">Visual Exploration</span>
+              </div>
+            </div>
+
+            <div class="mobile-card flex flex-row items-center gap-2.5">
+              <img src="./icons/chatgpt.png" alt="ChatGPT" class="w-7 h-7 object-contain flex-shrink-0 select-none pointer-events-none" />
+              <div class="flex flex-col min-w-0">
+                <span class="text-xs font-bold text-white truncate">ChatGPT</span>
+                <span class="text-[10px] text-zinc-400 truncate">Strategic Ideation</span>
+              </div>
+            </div>
+
+            <div class="mobile-card flex flex-row items-center gap-2.5">
+              <img src="./icons/claude.png" alt="Claude" class="w-7 h-7 object-contain flex-shrink-0 select-none pointer-events-none" />
+              <div class="flex flex-col min-w-0">
+                <span class="text-xs font-bold text-white truncate">Claude</span>
+                <span class="text-[10px] text-zinc-400 truncate">Concept Synthesis</span>
+              </div>
+            </div>
+
+            <div class="mobile-card flex flex-row items-center gap-2.5">
+              <img src="./icons/notebooklm.png" alt="NotebookLM" class="w-7 h-7 object-contain flex-shrink-0 select-none pointer-events-none" />
+              <div class="flex flex-col min-w-0">
+                <span class="text-xs font-bold text-white truncate">NotebookLM</span>
+                <span class="text-[10px] text-zinc-400 truncate">Knowledge Synthesis</span>
+              </div>
+            </div>
+
+            <div class="mobile-card flex flex-row items-center gap-2.5">
+              <img src="./icons/leonardo.png" alt="Leonardo AI" class="w-7 h-7 object-contain flex-shrink-0 select-none pointer-events-none" />
+              <div class="flex flex-col min-w-0">
+                <span class="text-xs font-bold text-white truncate">Leonardo AI</span>
+                <span class="text-[10px] text-zinc-400 truncate">Asset Prototyping</span>
+              </div>
+            </div>
+
+            <div class="mobile-card flex flex-row items-center gap-2.5">
+              <img src="./icons/googleflow.png" alt="Google Flow" class="w-7 h-7 object-contain flex-shrink-0 select-none pointer-events-none" />
+              <div class="flex flex-col min-w-0">
+                <span class="text-xs font-bold text-white truncate">Google Flow</span>
+                <span class="text-[10px] text-zinc-400 truncate">Cinematic Motion</span>
+              </div>
+            </div>
+
+            <div class="mobile-card flex flex-row items-center gap-2.5">
+              <img src="./icons/gemini.png" alt="Gemini" class="w-7 h-7 object-contain flex-shrink-0 select-none pointer-events-none" />
+              <div class="flex flex-col min-w-0">
+                <span class="text-xs font-bold text-white truncate">Gemini</span>
+                <span class="text-[10px] text-zinc-400 truncate">Multimodal Ideation</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 03: SELECTED WORK ================= -->
+  <section id="works-section" class="relative w-full bg-[#030304] border-t border-zinc-900/80 py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
+    <!-- Subtle Ambient Crimson Glow -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-[radial-gradient(ellipse_at_top,_rgba(220,20,40,0.1)_0%,_transparent_70%)] pointer-events-none -z-10"></div>
+
+    <div class="max-w-7xl mx-auto">
+      <!-- Section Header -->
+      <div class="flex flex-col items-center text-center mb-16 sm:mb-20">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-600/10 border border-red-500/30 text-red-500 font-mono text-[11px] sm:text-xs tracking-widest uppercase mb-3 shadow-[0_0_15px_rgba(255,42,59,0.2)]">
+          <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+          <span>CURATED ARCHIVE · 2024–2026</span>
+        </div>
+        <h2 class="text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight font-bebas text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+          SELECTED <span class="text-red-500 text-glow">WORK</span>
+        </h2>
+        <p class="text-sm sm:text-base text-zinc-300 font-light tracking-wide max-w-xl mt-2 px-2 leading-relaxed">
+          A curated collection of poster design systems, high-impact commercial visuals, and product campaigns.
+        </p>
+      </div>
+
+      <!-- Gallery Grid: 3-Col Desktop, 2-Col Tablet, 1-Col Mobile -->
+      <div id="works-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
+        
+        <!-- 01: Minimalist Poster (Featured Larger Card spanning 2 cols on desktop) -->
+        <article class="work-card group cursor-pointer focus:outline-none lg:col-span-2" tabindex="0" data-work-id="0" role="button" aria-label="View Minimalist Poster in lightbox">
+          <div class="relative w-full overflow-hidden rounded-2xl bg-zinc-950/80 border border-zinc-800/80 transition-all duration-300 group-hover:border-red-500/70 group-hover:shadow-[0_12px_40px_rgba(255,42,59,0.2)] group-focus-visible:border-red-500 group-focus-visible:ring-2 group-focus-visible:ring-red-500/50 flex items-center justify-center p-3 sm:p-5">
+            <img 
+              src="/works/minimalist-poster-thumb.webp" 
+              alt="Minimalist Poster - Graphic Design by Ashif Raja" 
+              width="2480" 
+              height="3508" 
+              loading="lazy" 
+              class="w-full h-auto max-h-[580px] object-contain rounded-xl transition-transform duration-500 group-hover:scale-[1.015]"
+            >
+            <div class="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-2xl">
+              <span class="px-4 py-2 rounded-full bg-red-600/90 text-white font-mono text-xs tracking-wider uppercase shadow-lg shadow-red-600/40 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                View Project ↗
+              </span>
+            </div>
+          </div>
+          <div class="mt-3.5 flex items-start justify-between px-1">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white group-hover:text-red-400 transition-colors">
+                Minimalist Poster
+              </h3>
+              <p class="text-xs font-mono text-zinc-400 mt-0.5">Editorial Poster · Visual Hierarchy</p>
+            </div>
+            <span class="font-mono text-xs text-zinc-500 group-hover:text-red-500 transition-colors mt-0.5">01</span>
+          </div>
+        </article>
+
+        <!-- 02: Energy Drink Creative -->
+        <article class="work-card group cursor-pointer focus:outline-none" tabindex="0" data-work-id="1" role="button" aria-label="View Energy Drink Creative in lightbox">
+          <div class="relative w-full overflow-hidden rounded-2xl bg-zinc-950/80 border border-zinc-800/80 transition-all duration-300 group-hover:border-red-500/70 group-hover:shadow-[0_12px_40px_rgba(255,42,59,0.2)] group-focus-visible:border-red-500 group-focus-visible:ring-2 group-focus-visible:ring-red-500/50 flex items-center justify-center p-3 sm:p-5">
+            <img 
+              src="/works/energy-drink-creative-thumb.webp" 
+              alt="Energy Drink Creative - Commercial Product Visual by Ashif Raja" 
+              width="1080" 
+              height="1350" 
+              loading="lazy" 
+              class="w-full h-auto max-h-[580px] object-contain rounded-xl transition-transform duration-500 group-hover:scale-[1.015]"
+            >
+            <div class="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-2xl">
+              <span class="px-4 py-2 rounded-full bg-red-600/90 text-white font-mono text-xs tracking-wider uppercase shadow-lg shadow-red-600/40 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                View Project ↗
+              </span>
+            </div>
+          </div>
+          <div class="mt-3.5 flex items-start justify-between px-1">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white group-hover:text-red-400 transition-colors">
+                Energy Drink Creative
+              </h3>
+              <p class="text-xs font-mono text-zinc-400 mt-0.5">CGI Advertising · Brand Campaign</p>
+            </div>
+            <span class="font-mono text-xs text-zinc-500 group-hover:text-red-500 transition-colors mt-0.5">02</span>
+          </div>
+        </article>
+
+        <!-- 03: Jewellery Poster -->
+        <article class="work-card group cursor-pointer focus:outline-none" tabindex="0" data-work-id="2" role="button" aria-label="View Jewellery Poster in lightbox">
+          <div class="relative w-full overflow-hidden rounded-2xl bg-zinc-950/80 border border-zinc-800/80 transition-all duration-300 group-hover:border-red-500/70 group-hover:shadow-[0_12px_40px_rgba(255,42,59,0.2)] group-focus-visible:border-red-500 group-focus-visible:ring-2 group-focus-visible:ring-red-500/50 flex items-center justify-center p-3 sm:p-5">
+            <img 
+              src="/works/jewellery-poster-thumb.webp" 
+              alt="Jewellery Poster - Luxury Brand Campaign by Ashif Raja" 
+              width="1080" 
+              height="1350" 
+              loading="lazy" 
+              class="w-full h-auto max-h-[520px] object-contain rounded-xl transition-transform duration-500 group-hover:scale-[1.015]"
+            >
+            <div class="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-2xl">
+              <span class="px-4 py-2 rounded-full bg-red-600/90 text-white font-mono text-xs tracking-wider uppercase shadow-lg shadow-red-600/40 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                View Project ↗
+              </span>
+            </div>
+          </div>
+          <div class="mt-3.5 flex items-start justify-between px-1">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white group-hover:text-red-400 transition-colors">
+                Jewellery Poster
+              </h3>
+              <p class="text-xs font-mono text-zinc-400 mt-0.5">Luxury Branding · High Fashion</p>
+            </div>
+            <span class="font-mono text-xs text-zinc-500 group-hover:text-red-500 transition-colors mt-0.5">03</span>
+          </div>
+        </article>
+
+        <!-- 04: Juice Poster -->
+        <article class="work-card group cursor-pointer focus:outline-none" tabindex="0" data-work-id="3" role="button" aria-label="View Juice Poster in lightbox">
+          <div class="relative w-full overflow-hidden rounded-2xl bg-zinc-950/80 border border-zinc-800/80 transition-all duration-300 group-hover:border-red-500/70 group-hover:shadow-[0_12px_40px_rgba(255,42,59,0.2)] group-focus-visible:border-red-500 group-focus-visible:ring-2 group-focus-visible:ring-red-500/50 flex items-center justify-center p-3 sm:p-5">
+            <img 
+              src="/works/juice-poster-thumb.webp" 
+              alt="Juice Poster - Packaging Concept Art by Ashif Raja" 
+              width="1125" 
+              height="1398" 
+              loading="lazy" 
+              class="w-full h-auto max-h-[520px] object-contain rounded-xl transition-transform duration-500 group-hover:scale-[1.015]"
+            >
+            <div class="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-2xl">
+              <span class="px-4 py-2 rounded-full bg-red-600/90 text-white font-mono text-xs tracking-wider uppercase shadow-lg shadow-red-600/40 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                View Project ↗
+              </span>
+            </div>
+          </div>
+          <div class="mt-3.5 flex items-start justify-between px-1">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white group-hover:text-red-400 transition-colors">
+                Juice Poster
+              </h3>
+              <p class="text-xs font-mono text-zinc-400 mt-0.5">Packaging Concept · Commercial Art</p>
+            </div>
+            <span class="font-mono text-xs text-zinc-500 group-hover:text-red-500 transition-colors mt-0.5">04</span>
+          </div>
+        </article>
+
+        <!-- 05: Perfume Creative -->
+        <article class="work-card group cursor-pointer focus:outline-none" tabindex="0" data-work-id="4" role="button" aria-label="View Perfume Creative in lightbox">
+          <div class="relative w-full overflow-hidden rounded-2xl bg-zinc-950/80 border border-zinc-800/80 transition-all duration-300 group-hover:border-red-500/70 group-hover:shadow-[0_12px_40px_rgba(255,42,59,0.2)] group-focus-visible:border-red-500 group-focus-visible:ring-2 group-focus-visible:ring-red-500/50 flex items-center justify-center p-3 sm:p-5">
+            <img 
+              src="/works/perfume-creative-thumb.webp" 
+              alt="Perfume Creative - Luxury Still Life by Ashif Raja" 
+              width="1080" 
+              height="1080" 
+              loading="lazy" 
+              class="w-full h-auto max-h-[520px] object-contain rounded-xl transition-transform duration-500 group-hover:scale-[1.015]"
+            >
+            <div class="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-2xl">
+              <span class="px-4 py-2 rounded-full bg-red-600/90 text-white font-mono text-xs tracking-wider uppercase shadow-lg shadow-red-600/40 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                View Project ↗
+              </span>
+            </div>
+          </div>
+          <div class="mt-3.5 flex items-start justify-between px-1">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white group-hover:text-red-400 transition-colors">
+                Perfume Creative
+              </h3>
+              <p class="text-xs font-mono text-zinc-400 mt-0.5">Luxury Still Life · Brand Identity</p>
+            </div>
+            <span class="font-mono text-xs text-zinc-500 group-hover:text-red-500 transition-colors mt-0.5">05</span>
+          </div>
+        </article>
+
+        <!-- 06: Footwear Poster -->
+        <article class="work-card group cursor-pointer focus:outline-none" tabindex="0" data-work-id="5" role="button" aria-label="View Footwear Poster in lightbox">
+          <div class="relative w-full overflow-hidden rounded-2xl bg-zinc-950/80 border border-zinc-800/80 transition-all duration-300 group-hover:border-red-500/70 group-hover:shadow-[0_12px_40px_rgba(255,42,59,0.2)] group-focus-visible:border-red-500 group-focus-visible:ring-2 group-focus-visible:ring-red-500/50 flex items-center justify-center p-3 sm:p-5">
+            <img 
+              src="/works/footwear-poster-thumb.webp" 
+              alt="Footwear Poster - Sports Apparel Campaign by Ashif Raja" 
+              width="1080" 
+              height="1350" 
+              loading="lazy" 
+              class="w-full h-auto max-h-[520px] object-contain rounded-xl transition-transform duration-500 group-hover:scale-[1.015]"
+            >
+            <div class="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-2xl">
+              <span class="px-4 py-2 rounded-full bg-red-600/90 text-white font-mono text-xs tracking-wider uppercase shadow-lg shadow-red-600/40 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                View Project ↗
+              </span>
+            </div>
+          </div>
+          <div class="mt-3.5 flex items-start justify-between px-1">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white group-hover:text-red-400 transition-colors">
+                Footwear Poster
+              </h3>
+              <p class="text-xs font-mono text-zinc-400 mt-0.5">Sports Apparel · Campaign Visual</p>
+            </div>
+            <span class="font-mono text-xs text-zinc-500 group-hover:text-red-500 transition-colors mt-0.5">06</span>
+          </div>
+        </article>
+
+        <!-- 07: Story Poster -->
+        <article class="work-card group cursor-pointer focus:outline-none" tabindex="0" data-work-id="6" role="button" aria-label="View Story Poster in lightbox">
+          <div class="relative w-full overflow-hidden rounded-2xl bg-zinc-950/80 border border-zinc-800/80 transition-all duration-300 group-hover:border-red-500/70 group-hover:shadow-[0_12px_40px_rgba(255,42,59,0.2)] group-focus-visible:border-red-500 group-focus-visible:ring-2 group-focus-visible:ring-red-500/50 flex items-center justify-center p-3 sm:p-5">
+            <img 
+              src="/works/story-poster-thumb.webp" 
+              alt="Story Poster - Cinematic Narrative Art by Ashif Raja" 
+              width="1080" 
+              height="1350" 
+              loading="lazy" 
+              class="w-full h-auto max-h-[520px] object-contain rounded-xl transition-transform duration-500 group-hover:scale-[1.015]"
+            >
+            <div class="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-2xl">
+              <span class="px-4 py-2 rounded-full bg-red-600/90 text-white font-mono text-xs tracking-wider uppercase shadow-lg shadow-red-600/40 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                View Project ↗
+              </span>
+            </div>
+          </div>
+          <div class="mt-3.5 flex items-start justify-between px-1">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white group-hover:text-red-400 transition-colors">
+                Story Poster
+              </h3>
+              <p class="text-xs font-mono text-zinc-400 mt-0.5">Cinematic Poster · Narrative Art</p>
+            </div>
+            <span class="font-mono text-xs text-zinc-500 group-hover:text-red-500 transition-colors mt-0.5">07</span>
+          </div>
+        </article>
+
+        <!-- 08: Watch Creative -->
+        <article class="work-card group cursor-pointer focus:outline-none" tabindex="0" data-work-id="7" role="button" aria-label="View Watch Creative in lightbox">
+          <div class="relative w-full overflow-hidden rounded-2xl bg-zinc-950/80 border border-zinc-800/80 transition-all duration-300 group-hover:border-red-500/70 group-hover:shadow-[0_12px_40px_rgba(255,42,59,0.2)] group-focus-visible:border-red-500 group-focus-visible:ring-2 group-focus-visible:ring-red-500/50 flex items-center justify-center p-3 sm:p-5">
+            <img 
+              src="/works/watch-creative-thumb.webp" 
+              alt="Watch Creative - Precision 3D Product Visual by Ashif Raja" 
+              width="1080" 
+              height="1080" 
+              loading="lazy" 
+              class="w-full h-auto max-h-[520px] object-contain rounded-xl transition-transform duration-500 group-hover:scale-[1.015]"
+            >
+            <div class="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-2xl">
+              <span class="px-4 py-2 rounded-full bg-red-600/90 text-white font-mono text-xs tracking-wider uppercase shadow-lg shadow-red-600/40 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                View Project ↗
+              </span>
+            </div>
+          </div>
+          <div class="mt-3.5 flex items-start justify-between px-1">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-white group-hover:text-red-400 transition-colors">
+                Watch Creative
+              </h3>
+              <p class="text-xs font-mono text-zinc-400 mt-0.5">Precision Timepiece · Product Visual</p>
+            </div>
+            <span class="font-mono text-xs text-zinc-500 group-hover:text-red-500 transition-colors mt-0.5">08</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 04: ABOUT ME ================= -->
+  <section id="about-section" class="relative w-full bg-[#040406] border-t border-zinc-900/80 py-24 sm:py-32 lg:py-36 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <!-- Ambient Crimson Background Glows -->
+    <div class="absolute top-1/3 -left-32 w-[500px] h-[500px] bg-[radial-gradient(circle,_rgba(220,20,40,0.08)_0%,_transparent_70%)] pointer-events-none -z-10 blur-2xl"></div>
+    <div class="absolute bottom-10 right-0 w-[400px] h-[400px] bg-[radial-gradient(circle,_rgba(220,20,40,0.04)_0%,_transparent_70%)] pointer-events-none -z-10 blur-3xl"></div>
+
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        
+        <!-- Left Column: Portrait with Crimson Backlighting & Soft Fade (Desktop: col 5, Mobile: order 1) -->
+        <div class="about-reveal about-portrait-wrap lg:col-span-5 flex justify-center order-1">
+          <div class="relative w-full max-w-md flex flex-col items-center">
+            
+            <!-- Red Aura Glow directly behind character -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 h-64 sm:h-80 rounded-full bg-[radial-gradient(circle,_rgba(255,42,59,0.22)_0%,_rgba(220,20,40,0.08)_50%,_transparent_75%)] blur-2xl pointer-events-none -z-10"></div>
+            
+            <!-- Sleek Dark Backdrop Panel with Soft Red Edge Illumination -->
+            <div class="relative w-full max-w-sm sm:max-w-md rounded-3xl bg-gradient-to-b from-zinc-900/40 via-zinc-950/60 to-black/80 border border-zinc-800/60 p-4 pt-8 pb-0 sm:p-6 sm:pt-10 sm:pb-0 shadow-[0_20px_60px_rgba(0,0,0,0.85)] flex flex-col items-center overflow-hidden">
+              
+              <!-- Subtle Crimson Rim Top Accent -->
+              <div class="absolute top-0 inset-x-8 h-px bg-gradient-to-r from-transparent via-red-500/50 to-transparent"></div>
+              
+              <!-- Character Cutout Image with Soft Edge & Bottom Fade -->
+              <div class="relative w-full flex justify-center">
+                <img 
+                  src="/character-cutout.png" 
+                  alt="Ashif Raja - Graphic Designer & UI/UX Designer" 
+                  width="1024" 
+                  height="1536" 
+                  loading="lazy" 
+                  class="portrait-mask w-full max-h-[420px] sm:max-h-[500px] lg:max-h-[540px] object-contain drop-shadow-[0_15px_35px_rgba(0,0,0,0.9)] filter drop-shadow(0_0_20px_rgba(255,42,59,0.18))"
+                >
+              </div>
+
+              <!-- Floor Reflection Accent below cutout -->
+              <div class="w-full h-8 bg-gradient-to-b from-red-600/10 to-transparent blur-md -mt-4 pointer-events-none"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right Column: Introduction & Bio Content (Desktop: col 7, Mobile: order 2) -->
+        <div class="about-reveal lg:col-span-7 flex flex-col items-start text-left order-2">
+          
+          <!-- Eyebrow -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-600/10 border border-red-500/30 text-red-500 font-mono text-[11px] sm:text-xs tracking-widest uppercase mb-4 shadow-[0_0_15px_rgba(255,42,59,0.15)]">
+            <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+            <span>THE DESIGNER &amp; PHILOSOPHY</span>
+          </div>
+
+          <!-- Heading -->
+          <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight font-bebas text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)] leading-none">
+            I’M <span class="text-red-500 text-glow">ASHIF RAJA.</span>
+          </h2>
+
+          <!-- Role -->
+          <p class="text-base sm:text-lg font-mono font-medium text-red-400 tracking-wide mt-2">
+            Graphic Designer &amp; UI/UX Designer
+          </p>
+
+          <!-- Intro -->
+          <p class="text-lg sm:text-xl lg:text-2xl text-white font-normal leading-relaxed mt-6 mb-6 max-w-xl">
+            Bridging visual storytelling and intuitive digital craft to create memorable brand experiences.
+          </p>
+
+          <!-- Bio Paragraphs -->
+          <div class="space-y-4 text-sm sm:text-base text-zinc-300 font-light leading-relaxed max-w-xl">
+            <p>
+              Rooted in visual storytelling, my discipline spans brand identities, high-impact commercial posters, and responsive digital interfaces. Every project begins with a clear narrative and ends with pixel-level precision.
+            </p>
+            <p>
+              I obsess over the foundational details that make visual communication resonate: expressive typography, harmonic composition, strict optical hierarchy, and intuitive user friction-reduction.
+            </p>
+            <p>
+              My methodology unites classical graphic design rigor with forward-thinking generative AI workflows—leveraging intelligent tools to accelerate ideation and push aesthetic boundaries while keeping creative direction firmly human-led.
+            </p>
+          </div>
+
+          <!-- Professional Discipline Tags -->
+          <div class="flex flex-wrap gap-2 sm:gap-2.5 mt-8">
+            <span class="px-3.5 py-1.5 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs sm:text-sm font-mono tracking-wide">
+              Brand &amp; Visual Systems
+            </span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs sm:text-sm font-mono tracking-wide">
+              UI/UX &amp; Interaction
+            </span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs sm:text-sm font-mono tracking-wide">
+              Generative AI Pipelines
+            </span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs sm:text-sm font-mono tracking-wide">
+              Editorial Architecture
+            </span>
+          </div>
+
+          <!-- Button: Explore Selected Work -->
+          <div class="mt-10">
+            <button 
+              id="about-explore-btn" 
+              class="group inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-red-600 hover:bg-red-500 text-white font-mono text-xs sm:text-sm uppercase tracking-wider font-semibold transition-all duration-300 shadow-[0_4px_25px_rgba(255,42,59,0.35)] hover:shadow-[0_6px_35px_rgba(255,42,59,0.55)] hover:scale-[1.03] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-red-500/80 cursor-pointer"
+              aria-label="Explore Selected Work"
+            >
+              <span>Explore Selected Work</span>
+              <svg class="w-4 h-4 transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 05: FOOTER (FULL SCREEN CINEMATIC CLOSING) ================= -->
+  <footer id="footer-section" class="relative w-full min-h-screen bg-black flex flex-col justify-center items-center overflow-hidden border-t border-zinc-900/80 p-0 m-0">
+    
+    <!-- Full-Bleed Artwork Container -->
+    <div class="relative w-full min-h-screen flex items-center justify-center bg-black">
+      
+      <!-- Subtle Ambient Crimson Glow -->
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(220,20,40,0.08)_0%,_transparent_75%)] pointer-events-none z-0"></div>
+
+      <!-- 16:9 Responsive Full-Screen Artwork Stage -->
+      <div class="relative w-full aspect-[16/9] max-h-screen flex items-center justify-center">
+        <img 
+          src="/footer-contact.jpg" 
+          alt="Ashif Raja - Have an idea? Let's make it real. Graphic Designer &amp; UI/UX Designer" 
+          width="1024" 
+          height="576" 
+          loading="lazy" 
+          class="w-full h-full object-contain block select-none z-10"
+        >
+
+        <!-- Interactive mailto hotspot over email -->
+        <a 
+          href="mailto:ashifraja2626@gmail.com" 
+          class="absolute left-[3.4%] top-[57.3%] w-[22.5%] h-[6.2%] rounded cursor-pointer transition-colors duration-200 hover:bg-red-500/10 focus:outline-none focus:ring-1 focus:ring-red-500 z-20" 
+          aria-label="Send email to ashifraja2626@gmail.com"
+          title="Send email to ashifraja2626@gmail.com"
+        ></a>
+
+        <!-- Floating "Back to top" Button -->
+        <button 
+          id="back-to-top-btn" 
+          class="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-30 group inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/80 hover:bg-black backdrop-blur-md border border-zinc-700/80 hover:border-red-500 text-zinc-300 hover:text-white transition-all duration-200 shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 cursor-pointer text-xs font-mono" 
+          aria-label="Back to top"
+        >
+          <span>Back to top</span>
+          <svg class="w-3.5 h-3.5 text-red-500 transform group-hover:-translate-y-0.5 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ================= PROJECT VIEWER LIGHTBOX ================= -->
+  <div id="lightbox" class="fixed inset-0 z-50 hidden bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-between p-4 sm:p-8 select-none opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true" aria-label="Project Viewer">
+    <!-- Top Bar -->
+    <div class="w-full max-w-6xl flex items-center justify-between z-10 pb-4 border-b border-zinc-800/80">
+      <div class="flex items-center gap-3">
+        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+        <div class="flex items-baseline gap-2.5">
+          <span id="lb-title" class="font-bold text-base sm:text-xl text-white font-bebas tracking-wide">Project Title</span>
+          <span id="lb-category" class="hidden sm:inline-block font-mono text-xs text-red-400/90 tracking-wider uppercase"></span>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <span id="lb-counter" class="font-mono text-xs text-zinc-400">01 / 08</span>
+        <button id="lb-close" class="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700/80 text-zinc-300 hover:text-white hover:border-red-500 text-xs font-mono transition-all flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-red-500" aria-label="Close viewer (Escape)">
+          <span>CLOSE</span>
+          <span class="text-zinc-400 font-mono text-[10px]">[ESC]</span>
+          <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Center Stage with Prev, Image, Next -->
+    <div class="relative w-full max-w-6xl flex-1 flex items-center justify-center py-4 overflow-hidden">
+      <!-- Prev Button -->
+      <button id="lb-prev" class="absolute left-2 sm:left-4 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-black/70 border border-zinc-700/80 hover:border-red-500 text-white flex items-center justify-center transition-all hover:scale-110 hover:shadow-[0_0_20px_rgba(255,42,59,0.4)] focus:outline-none focus:ring-2 focus:ring-red-500" aria-label="Previous artwork (Left Arrow)">
+        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <!-- Main Artwork Image Container -->
+      <div id="lb-stage" class="relative max-h-[78vh] max-w-[84vw] flex items-center justify-center">
+        <img id="lb-img" src="" alt="" class="max-h-[78vh] max-w-[84vw] w-auto h-auto object-contain rounded-xl shadow-2xl transition-all duration-200">
+      </div>
+
+      <!-- Next Button -->
+      <button id="lb-next" class="absolute right-2 sm:right-4 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-black/70 border border-zinc-700/80 hover:border-red-500 text-white flex items-center justify-center transition-all hover:scale-110 hover:shadow-[0_0_20px_rgba(255,42,59,0.4)] focus:outline-none focus:ring-2 focus:ring-red-500" aria-label="Next artwork (Right Arrow)">
+        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Bottom Keyboard Navigation Hint -->
+    <div class="w-full max-w-6xl flex items-center justify-between text-[11px] font-mono text-zinc-400 pt-3 border-t border-zinc-900/90">
+      <span class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-zinc-600"></span>
+        CLICK OUTSIDE OR PRESS <kbd class="px-1.5 py-0.5 rounded bg-zinc-800/90 border border-zinc-700 text-zinc-300 text-[10px]">ESC</kbd> TO CLOSE
+      </span>
+      <span class="hidden sm:inline-flex items-center gap-1.5">
+        USE KEYS <kbd class="px-1.5 py-0.5 rounded bg-zinc-800/90 border border-zinc-700 text-zinc-300 text-[10px]">←</kbd> <kbd class="px-1.5 py-0.5 rounded bg-zinc-800/90 border border-zinc-700 text-zinc-300 text-[10px]">→</kbd> TO NAVIGATE
+      </span>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
