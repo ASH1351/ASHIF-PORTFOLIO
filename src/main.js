@@ -79,71 +79,73 @@ const trailHistory = [];
 
 // ================= LENIS SMOOTH MOMENTUM SCROLL =================
 const lenis = new Lenis({
-  duration: 1.05,
+  duration: 0.9,
   easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
   orientation: 'vertical',
   gestureOrientation: 'vertical',
   smoothWheel: true,
-  wheelMultiplier: 0.82,
-  touchMultiplier: 1.2,
+  wheelMultiplier: 1.0,
+  touchMultiplier: 1.5,
 });
 
-const HERO_FADE_THRESHOLD = 0.12;
-
 function updateHeroTitle(heroProgress) {
+  // Direct dynamic video scrubbing: Starts immediately as the user scrolls
+  targetFrame = Math.max(0, Math.min(TOTAL_FRAMES - 1, heroProgress * (TOTAL_FRAMES - 1)));
+
   if (!heroOpeningTitle) return;
 
-  if (heroProgress <= HERO_FADE_THRESHOLD) {
-    const fadeRatio = heroProgress / HERO_FADE_THRESHOLD;
+  // Title fades out smoothly in the first 8-10% of scroll while video begins moving
+  const FADE_THRESHOLD = 0.09;
+  if (heroProgress <= FADE_THRESHOLD) {
+    const fadeRatio = heroProgress / FADE_THRESHOLD;
     const opacity = Math.max(0, 1 - fadeRatio);
     heroOpeningTitle.style.opacity = opacity.toFixed(3);
-    heroOpeningTitle.style.transform = `translate3d(0, ${(-fadeRatio * 35).toFixed(1)}px, 0) scale(${(1 - fadeRatio * 0.04).toFixed(3)})`;
+    heroOpeningTitle.style.transform = `translate3d(0, ${(-fadeRatio * 32).toFixed(1)}px, 0) scale(${(1 - fadeRatio * 0.03).toFixed(3)})`;
     heroOpeningTitle.style.visibility = opacity > 0 ? 'visible' : 'hidden';
-    // Hold video at opening frame 0 while title fades out!
-    targetFrame = 0;
   } else {
     heroOpeningTitle.style.opacity = '0';
     heroOpeningTitle.style.visibility = 'hidden';
-    // Begin video animation once title has disappeared
-    const videoProgress = (heroProgress - HERO_FADE_THRESHOLD) / (1 - HERO_FADE_THRESHOLD);
-    targetFrame = videoProgress * (TOTAL_FRAMES - 1);
   }
 }
 
-lenis.on('scroll', () => {
+function handleScrollProgress() {
   // 1. Update Hero Track Progress
-  const heroRect = heroTrack.getBoundingClientRect();
-  const heroMaxScroll = heroTrack.offsetHeight - window.innerHeight;
-  const heroScrolled = -heroRect.top;
-  const heroProgress = Math.max(0, Math.min(1, heroScrolled / heroMaxScroll));
-
-  updateHeroTitle(heroProgress);
+  if (heroTrack) {
+    const heroRect = heroTrack.getBoundingClientRect();
+    const heroMaxScroll = heroTrack.offsetHeight - window.innerHeight;
+    if (heroMaxScroll > 0) {
+      const heroScrolled = -heroRect.top;
+      const heroProgress = Math.max(0, Math.min(1, heroScrolled / heroMaxScroll));
+      updateHeroTitle(heroProgress);
+    }
+  }
 
   // 2. Update Universe Section Progress
   if (universeSection) {
     const uRect = universeSection.getBoundingClientRect();
     const uMaxScroll = universeSection.offsetHeight - window.innerHeight;
-    const uScrolled = -uRect.top;
-    universeProgress = Math.max(0, Math.min(1, uScrolled / uMaxScroll));
-
-    // Visibility gate to pause ambient loops when offscreen
-    isUniverseVisible = uRect.top < window.innerHeight && uRect.bottom > 0;
+    if (uMaxScroll > 0) {
+      const uScrolled = -uRect.top;
+      universeProgress = Math.max(0, Math.min(1, uScrolled / uMaxScroll));
+      isUniverseVisible = uRect.top < window.innerHeight && uRect.bottom > 0;
+    }
   }
-});
+}
+
+lenis.on('scroll', handleScrollProgress);
+window.addEventListener('scroll', handleScrollProgress, { passive: true });
 
 // ================= HIGH-PERFORMANCE HERO CANVAS =================
 function resizeCanvases() {
   // Hero canvas
-  const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
   heroCanvas.width = Math.round(window.innerWidth * dpr);
   heroCanvas.height = Math.round(window.innerHeight * dpr);
   heroCtx.imageSmoothingEnabled = true;
-  heroCtx.imageSmoothingQuality = 'medium';
+  heroCtx.imageSmoothingQuality = 'high';
 
   const frameIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(currentFrame)));
-  if (frames[frameIdx]) {
-    drawHeroFrame(frameIdx);
-  }
+  drawHeroFrame(frameIdx);
 
   // Universe particles canvas
   if (particlesCanvas) {
@@ -154,7 +156,19 @@ function resizeCanvases() {
 }
 
 function drawHeroFrame(frameIndex) {
-  const img = frames[frameIndex];
+  let img = frames[frameIndex];
+  if (!img) {
+    // If target frame is still decoding, find nearest loaded frame
+    for (let offset = 1; offset < 25; offset++) {
+      if (frameIndex - offset >= 0 && frames[frameIndex - offset]) {
+        img = frames[frameIndex - offset];
+        break;
+      } else if (frameIndex + offset < TOTAL_FRAMES && frames[frameIndex + offset]) {
+        img = frames[frameIndex + offset];
+        break;
+      }
+    }
+  }
   if (!img) return;
 
   const cw = heroCanvas.width;
@@ -162,10 +176,17 @@ function drawHeroFrame(frameIndex) {
   const iw = img.naturalWidth || img.width || 1920;
   const ih = img.naturalHeight || img.height || 1080;
 
-  const scale = Math.max(cw / iw, ch / ih);
-  const dw = Math.round(iw * scale);
+  // Clear canvas with deep cinema black
+  heroCtx.fillStyle = '#000000';
+  heroCtx.fillRect(0, 0, cw, ch);
+
+  // Responsive video sizing:
+  // Video width is 100% of canvas width across all devices (mobile, tablet, desktop)
+  // No cropped edges, full video width is identical on all devices
+  const scale = cw / iw;
+  const dw = cw;
   const dh = Math.round(ih * scale);
-  const dx = Math.round((cw - dw) / 2);
+  const dx = 0;
   const dy = Math.round((ch - dh) / 2);
 
   heroCtx.drawImage(img, dx, dy, dw, dh);
@@ -404,13 +425,14 @@ window.addEventListener('pointermove', (e) => {
 // ================= ULTRA-SMOOTH MAIN RENDER LOOP =================
 function renderLoop(time) {
   lenis.raf(time);
+  handleScrollProgress();
 
   const timeSec = time * 0.001;
 
-  // 1. Hero Scrubbing Engine
+  // 1. Hero Scrubbing Engine - snappy, responsive interpolation
   const diff = targetFrame - currentFrame;
   if (Math.abs(diff) > 0.001) {
-    currentFrame += diff * 0.18;
+    currentFrame += diff * 0.28;
   } else {
     currentFrame = targetFrame;
   }
@@ -432,10 +454,13 @@ function renderLoop(time) {
 }
 
 // ================= INITIALIZATION =================
-window.addEventListener('resize', resizeCanvases);
+window.addEventListener('resize', () => {
+  resizeCanvases();
+  handleScrollProgress();
+});
 
 resizeCanvases();
-updateHeroTitle(0);
+handleScrollProgress();
 preloadFrames();
 requestAnimationFrame(renderLoop);
 
